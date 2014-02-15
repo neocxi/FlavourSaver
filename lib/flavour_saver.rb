@@ -16,16 +16,16 @@ module FlavourSaver
     class Engine < Rails::Engine
     end
 
-    ActiveSupport.on_load(:action_view) do
-      handler = proc do |template| 
-        # I'd rather be caching the Runtime object ready to fire, but apparently I don't get that luxury.
-        <<-SOURCE
-        FlavourSaver.evaluate((begin;#{template.source.inspect};end),self)
-        SOURCE
-      end
-      ActionView::Template.register_template_handler(:hbs, handler)
-      ActionView::Template.register_template_handler(:handlebars, handler)
-    end
+    # ActiveSupport.on_load(:action_view) do
+    #   handler = proc do |template| 
+    #     # I'd rather be caching the Runtime object ready to fire, but apparently I don't get that luxury.
+    #     <<-SOURCE
+    #     FlavourSaver.evaluate((begin;#{template.source.inspect};end),self)
+    #     SOURCE
+    #   end
+    #   ActionView::Template.register_template_handler(:hbs, handler)
+    #   ActionView::Template.register_template_handler(:handlebars, handler)
+    # end
 
     @default_logger = proc { Rails.logger }
     @partial_handler = RailsPartial
@@ -72,7 +72,7 @@ module FlavourSaver
     @logger=logger
   end
 
-  Tilt.register(Template, 'handlebars', 'hbs')
+  # Tilt.register(Template, 'handlebars', 'hbs')
 end
 
 FS = FlavourSaver
